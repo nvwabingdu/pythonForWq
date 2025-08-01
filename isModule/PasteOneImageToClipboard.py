@@ -1,3 +1,4 @@
+#将某个路径的图片复制到剪贴板
 import os
 from PIL import Image
 import io

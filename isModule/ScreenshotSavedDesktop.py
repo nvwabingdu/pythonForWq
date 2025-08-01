@@ -1,3 +1,4 @@
+#将桌面某个区域的范围截图，并保存在桌面
 import mss
 import time
 from PIL import Image
@@ -16,7 +17,7 @@ monitor_area = {
 }
 
 with mss.mss() as sct:
-    while True:
+    # while True:
         # 捕捉屏幕截图
         img = sct.grab(monitor_area)
 
@@ -33,4 +34,4 @@ with mss.mss() as sct:
         print(f"Screenshot saved to desktop as {filename}.")
 
         # 暂停一段时间
-        time.sleep(10)  # 每2秒捕捉一次
+        # time.sleep(10)  # 每2秒捕捉一次
