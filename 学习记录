@@ -1,0 +1,20 @@
+1.打包
+   pip install pyinstaller   安装打包器
+   pyinstaller --onefile C:\Users\1\PycharmProjects\ZqrPythonProject\.venv\Scripts\fenxiwangye.py
+   pyinstaller --onefile --noconsole C:\Users\1\PycharmProjects\ZqrPythonProject\.venv\Scripts\AutoPinsen.py   不用命令窗口模式  最终模式
+
+   使用 PyInstaller 打包后，生成的可执行文件通常会位于 该工程的 dist 文件夹中
+
+
+
+2.
+from datetime import datetime
+#时间戳
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+
+3.
+
+
+
+
