@@ -1,6 +1,8 @@
 #文件说明
 #1.全屏化，通过鼠标拉框的方式，将拉动的框的位置打印出来
 import tkinter as tk
+import pyautogui
+
 
 class FloatingBox:
     def __init__(self, root):
@@ -9,9 +11,8 @@ class FloatingBox:
         self.root.attributes("-topmost", True)  # 置于所有窗口之上
         self.root.attributes("-alpha", 0.5)  # 设置窗口透明度
 
-        # 设置窗口为全屏
-        self.screen_width = self.root.winfo_screenwidth()
-        self.screen_height = self.root.winfo_screenheight()
+        # 使用 pyautogui 获取屏幕大小
+        self.screen_width, self.screen_height = pyautogui.size()
         self.root.geometry(f"{self.screen_width}x{self.screen_height}+0+0")
 
         self.root.bind("<ButtonPress-1>", self.on_button_press)
@@ -36,12 +37,19 @@ class FloatingBox:
 
     def on_button_release(self, event):
         end_x, end_y = event.x, event.y
-        box_position = (self.start_x, self.start_y, end_x, end_y)
+
+        # 将坐标转换为屏幕坐标
+        box_position = (self.root.winfo_x() + self.start_x,
+                        self.root.winfo_y() + self.start_y,
+                        self.root.winfo_x() + end_x,
+                        self.root.winfo_y() + end_y)
+
         print("选定区域位置:", box_position)  # 打印框的位置
 
         # 清除框并关闭应用
         self.canvas.delete(self.rect)
         self.root.destroy()  # 关闭应用
+
 
 if __name__ == "__main__":
     root = tk.Tk()

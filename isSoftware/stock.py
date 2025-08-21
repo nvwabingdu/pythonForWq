@@ -6,7 +6,7 @@ import requests
 lg = bs.login()
 
 file_name_=fr"C:\Users\16616\Desktop\stock\stock.xlsx"
-current_day = "2025-08-13"
+current_day = "2025-08-19"
 
 # 显示登陆返回信息
 # print('login respond error_code:' + lg.error_code)
