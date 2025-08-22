@@ -10,10 +10,10 @@ desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
 
 # 定义要监控的区域 (left, top, width, height)
 monitor_area = {
-    "top": 41,  # 距离顶部的高度
-    "left": 39,  # 距离左侧的宽度
-    "width": 397,  # 区域的宽度
-    "height": 673,  # 区域的高度
+    "top": 2,  # 距离顶部的高度
+    "left": 0,  # 距离左侧的宽度
+    "width": 195,  # 区域的宽度
+    "height": 108,  # 区域的高度
 }
 
 with mss.mss() as sct:
