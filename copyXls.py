@@ -16,8 +16,7 @@ COLUMNS = [
     "登记人",
 ]
 
-REQUIRED_ORDER = ["订单号", "客户账号", "SKU", "补发原因", "姓名", "电话", "收货地址", "补发型号"]
-DEFAULT_QUANTITY = "x"
+REQUIRED_ORDER = ["订单号", "客户账号", "SKU", "补发原因", "姓名", "电话", "收货地址", "补发型号","数量","登记人",]
 
 
 class App(tk.Tk):
@@ -64,7 +63,6 @@ class App(tk.Tk):
         inp.pack(fill="x", pady=0)
 
         self.reg_time_var = tk.StringVar(value=self.get_today_cn_date())
-        self.qty_var = tk.StringVar(value=DEFAULT_QUANTITY)
         self.user_var = tk.StringVar()
 
         for col in COLUMNS:
@@ -73,14 +71,6 @@ class App(tk.Tk):
                 v = self.reg_time_var
                 e = tk.Entry(inp, textvariable=v, font=font, width=max(6, int(w/10)),
                              bd=1, relief="solid", justify="center", state="readonly")
-            elif col == "数量":
-                v = self.qty_var
-                e = tk.Entry(inp, textvariable=v, font=font, width=max(6, int(w/10)),
-                             bd=1, relief="solid", justify="center")
-            elif col == "登记人":
-                v = self.user_var
-                e = tk.Entry(inp, textvariable=v, font=font, width=max(6, int(w/10)),
-                             bd=1, relief="solid", justify="center")
             else:
                 v = tk.StringVar()
                 e = tk.Entry(inp, textvariable=v, font=font, width=max(6, int(w/10)),
@@ -152,8 +142,8 @@ class App(tk.Tk):
             "电话": self.vars["电话"].get().strip(),
             "收货地址": self.vars["收货地址"].get().strip(),
             "补发型号": self.vars["补发型号"].get().strip(),
-            "数量": self.qty_var.get().strip(),
-            "登记人": self.user_var.get().strip(),
+            "数量": self.vars["数量"].get().strip(),
+            "登记人": self.vars["登记人"].get().strip(),
         }
 
         desktop = os.path.join(os.path.expanduser("~"), "Desktop")
@@ -178,8 +168,6 @@ class App(tk.Tk):
         self._last_clip = None
 
         self.reg_time_var.set(self.get_today_cn_date())
-        self.qty_var.set(DEFAULT_QUANTITY)
-        self.user_var.set("")
 
         for col in REQUIRED_ORDER:
             self.vars[col].set("")
