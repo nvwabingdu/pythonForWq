@@ -2,6 +2,9 @@
 x = 5
 y = "Hello, World!"
 
+# 获取今天日期，并格式化成：2026年04月04日
+# today = datetime.now().strftime("%Y年%m月%d日")
+
 #2.用缩进表示语法
 if x > 2:
  print("Five is greater than two!")

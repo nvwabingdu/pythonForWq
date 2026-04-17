@@ -24,4 +24,12 @@ C:\Users\MI\AppData\Local\Programs\Python\Python314\python.exe -m pip install --
 
 
 
-C:\Users\MI\AppData\Local\Programs\Python\Python314\python.exe -m pip install pyinstaller
+C:\Users\MI\AppData\Local\Programs\Python\Python314\python.exe -m pip uninstall -y chard
+
+
+
+# 从 GitHub 安装真正的 chard（地址解析）
+pip install git+https://github.com/longcw/chard.git
+
+
+C:\Users\MI\AppData\Local\Programs\Python\Python314\python.exe -m pip install git+https://github.com/longcw/chard.git
