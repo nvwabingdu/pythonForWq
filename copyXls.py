@@ -27,8 +27,7 @@ class App(tk.Tk):
         self.attributes("-topmost", True)
 
         self._cursor = 0
-        self._last_clip = None
-        self.start_listening = False
+        self._last_clip = None  # 保留，但初始不读取
 
         # 零边距
         right = tk.Frame(self)
@@ -66,7 +65,7 @@ class App(tk.Tk):
 
         self.reg_time_var = tk.StringVar(value=self.get_today_cn_date())
         self.qty_var = tk.StringVar(value=DEFAULT_QUANTITY)
-        self.user_var = tk.StringVar(value="暂无")  # 🔥 只改这里：默认暂无
+        self.user_var = tk.StringVar()
 
         for col in COLUMNS:
             w = widths.get(col, 100)
@@ -95,13 +94,17 @@ class App(tk.Tk):
                             bg="#28a845", fg="white",
                             bd=1, relief="solid")
         btn_gen.pack(side="left", padx=1, pady=0)
-
+        # 🔥 关键修改：初始不监听
+        self.start_listening = False  # 新增
         self.after(200, self.poll_clipboard)
 
-        # 自适应大小
+        # ==============================================
+        # 🔥 核心：让窗口自动贴合内容大小（自适应）
+        # ==============================================
         self.update()
         self.geometry(f"{self.winfo_width()}x{self.winfo_height()}")
-        self.resizable(False, False)
+        self.resizable(False, False)  # 锁定不可拉伸
+
 
     def get_today_cn_date(self):
         return datetime.now().strftime("%Y年%m月%d日")
@@ -119,6 +122,7 @@ class App(tk.Tk):
         except tk.TclError:
             clip = ""
 
+        # 🔥 关键修改：第一次不自动填充
         if clip and clip != self._last_clip:
             if not self.start_listening:
                 self.start_listening = True
@@ -132,7 +136,6 @@ class App(tk.Tk):
     def on_generate(self):
         import pandas as pd
         import tkinter.messagebox
-        from openpyxl.styles import numbers
 
         missing = [c for c in REQUIRED_ORDER if not self.vars[c].get().strip()]
         if missing:
@@ -157,27 +160,35 @@ class App(tk.Tk):
         file = os.path.join(desktop, f"{datetime.now():%Y-%m-%d}_补发登记.xlsx")
 
         df_new = pd.DataFrame([record], columns=COLUMNS)
-        with pd.ExcelWriter(file, engine="openpyxl") as writer:
-            if os.path.exists(file):
-                df_old = pd.read_excel(file, dtype=str)
-                df_all = pd.concat([df_old, df_new], ignore_index=True)
-            else:
-                df_all = df_new
-
-            df_all.to_excel(writer, index=False, sheet_name="补发记录")
-            worksheet = writer.sheets["补发记录"]
-            for row in worksheet.iter_rows():
-                for cell in row:
-                    cell.number_format = numbers.FORMAT_TEXT
+        if os.path.exists(file):
+            df_old = pd.read_excel(file)
+            df_new = pd.concat([df_old, df_new], ignore_index=True)
+        df_new.to_excel(file, index=False)
 
         # 重置
         self._cursor = 0
         self._last_clip = None
-        self.start_listening = False
-        self.user_var.set("暂无")  # 🔥 重置后恢复暂无
+        self.start_listening = False  # 重置后再次忽略第一次
+        self.user_var.set("")
         for c in REQUIRED_ORDER:
             self.vars[c].set("")
 
+    def reset_for_next(self):
+        self._cursor = 0
+        self._last_clip = None
+
+        self.reg_time_var.set(self.get_today_cn_date())
+        self.qty_var.set(DEFAULT_QUANTITY)
+        self.user_var.set("")
+
+        for col in REQUIRED_ORDER:
+            self.vars[col].set("")
+
+        # 继续置顶（生成后有时会失焦）
+        self.attributes("-topmost", True)
+
 if __name__ == "__main__":
+    # Tk messagebox 需要显式导入
+    import tkinter.messagebox  # noqa: F401
     app = App()
     app.mainloop()
