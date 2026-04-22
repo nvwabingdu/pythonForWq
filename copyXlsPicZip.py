@@ -185,7 +185,7 @@ class App(tk.Tk):
             "补发型号": self.vars["补发型号"].get().strip(),
             "数量": self.vars["数量"].get().strip(),
             "登记人": self.vars["登记人"].get().strip(),
-            "凭证图片": "已上传",
+            "凭证图片": "",
         }
 
         desktop = os.path.join(os.path.expanduser("~"), "Desktop")
@@ -205,13 +205,20 @@ class App(tk.Tk):
             ws.append(COLUMNS)
             row_num = 2
 
+        # 追加数据
         row_data = [record[c] for c in COLUMNS]
         ws.append(row_data)
+
+        # 强制当前行所有单元格为文本格式，杜绝科学计数法
+        from openpyxl.styles import numbers
+        for col in range(1, len(COLUMNS) + 1):
+            cell = ws.cell(row=row_num, column=col)
+            cell.number_format = numbers.FORMAT_TEXT
 
         if self.clip_image is not None:
             # ========== 固定 2cm × 2cm 纯手工计算（无依赖，绝对不报错） ==========
             # 固定尺寸：2 厘米 × 2 厘米
-            CELL_CM = 2.0
+            CELL_CM = 1.0
 
             # Excel 标准单位换算（通用所有版本）
             col_width = CELL_CM * 7.82        # 列宽 = 2cm
