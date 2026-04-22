@@ -166,7 +166,6 @@ class App(tk.Tk):
     def on_image_caught(self):
         self.vars["凭证图片"].set("已获取图片")
         self.btn_img.config(text="图片", state="normal", bg="#4285F4")
-        tk.messagebox.showinfo("成功", "已自动获取你复制的图片！")
 
     def on_generate(self):
         missing = [c for c in REQUIRED_ORDER if not self.vars[c].get().strip()]
@@ -235,12 +234,6 @@ class App(tk.Tk):
             # ==================================================================
 
         wb.save(file)
-
-        tkinter.messagebox.showinfo("完成",
-            "登记成功！\n"
-            "✅ 单元格固定 2cm×2cm\n"
-            "✅ 图片统一缩放到2cm\n"
-            "✅ 双击可查看原图")
 
         # 重置
         self._cursor = 0
