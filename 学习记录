@@ -1,7 +1,7 @@
 1.打包
    pip install pyinstaller   安装打包器
    pyinstaller --onefile C:\Users\MI\PycharmProjects\pythonForWq\fenxiwangye.py
-   pyinstaller --onefile --noconsole C:\Users\MI\PycharmProjects\pythonForWq\copyXlsPicZip.py   不用命令窗口模式  最终模式
+   pyinstaller --onefile --noconsole C:\Users\MI\PycharmProjects\pythonForWq\ok.py   不用命令窗口模式  最终模式
 
    使用 PyInstaller 打包后，生成的可执行文件通常会位于 该工程的 dist 文件夹中
 
