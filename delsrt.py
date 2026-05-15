@@ -38,8 +38,8 @@
 
 
 # 删除--> 下面第二行
-input_file = "字幕.txt"
-output_file = "字幕output.txt"
+input_file = r"C:\Users\MI\Desktop\123.txt"
+output_file = r"C:\Users\MI\Desktop\123结果.txt"
 
 with open(input_file, 'r', encoding='utf-8') as f:
     lines = f.readlines()
