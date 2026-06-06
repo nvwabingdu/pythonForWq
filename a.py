@@ -7,7 +7,6 @@ from PIL import Image
 import io
 import pyautogui
 import keyboard
-import re
 
 # -------------------------- 基础配置 --------------------------
 ROOT_FOLDER = r"C:\Users\MI\Desktop\京东产品"
@@ -20,15 +19,6 @@ pyautogui.FAILSAFE = True
 # 全局控制
 STOP_FLAG = False
 CLIPBOARD_LOCK = threading.Lock()
-
-
-# -------------------------- 【通用】自然排序算法（永不爆炸） --------------------------
-def natural_sort_key(s):
-    """
-    自然排序：自动识别数字，1 < 10 < 100
-    任何文件名通用，不依赖格式，不会报错
-    """
-    return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s)]
 
 
 # 空格监听强制停止
@@ -129,7 +119,7 @@ def write_to_folder_txt(folder_path, content):
     print(f"✅ 已写入：{txt_path}")
 
 
-# -------------------------- 主流程：os.walk + 自然排序 --------------------------
+# -------------------------- 主流程：使用 os.walk 取图（和第一段代码完全一致） --------------------------
 def process_all_subfolders():
     global STOP_FLAG
 
@@ -137,7 +127,7 @@ def process_all_subfolders():
         print(f"❌ 根目录不存在：{ROOT_FOLDER}")
         return
 
-    # os.walk 遍历所有子文件夹（和你第一段代码取图方式一致）
+    # 👇 这就是第一段代码的取图方式
     for root, dirs, files in os.walk(ROOT_FOLDER):
         if STOP_FLAG:
             break
@@ -154,11 +144,7 @@ def process_all_subfolders():
             print("⚠️  无图片，跳过")
             continue
 
-        # ====================== 核心修改：自然排序 ======================
-        images.sort(key=natural_sort_key)
-        # ===============================================================
-
-        # 按正确顺序处理图片
+        # 循环处理每一张图片
         for img in images:
             if STOP_FLAG:
                 break
@@ -213,7 +199,7 @@ def process_all_subfolders():
 # -------------------------- 启动 --------------------------
 if __name__ == "__main__":
     print("=" * 60)
-    print("京东产品图片自动化工具（自然排序版）")
+    print("京东产品图片自动化工具（严格系统顺序版）")
     print("⚠️  强制终止：按【空格键】")
     print("=" * 60)
 

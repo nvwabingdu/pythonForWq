@@ -7,7 +7,18 @@ from pathlib import Path
 
 # =====================【自行配置参数区】=====================
 # SKU集合，逗号分隔自定义
-SKU_SET = {"100049080427"}
+SKU_SET = {
+    "100347940234",
+    "100347872254",
+    "100261415515",
+    "100326493286",
+    "100244678325",
+    "100244764593",
+    "100113479424",
+    "100348199986",
+    "100326629284",
+    "100348225916"
+}
 # SKU_SET = {"100049080427", "100200224975"}
 # 浏览器地址栏点击坐标
 ADDR_X, ADDR_Y = 454, 87
@@ -111,7 +122,7 @@ class SkuTool(tk.Tk):
         while True:
             # 截取并保存主图
             cur_main = pyautogui.screenshot(region=main_region)
-            img_path = os.path.join(save_folder, f"{sku}_第{pic_index}屏.png")
+            img_path = os.path.join(save_folder, f"{sku}_{pic_index}.png")
             cur_main.save(img_path)
             self.log(f"已保存：第{pic_index}屏")
             pic_index += 1
